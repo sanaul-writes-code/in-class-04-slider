@@ -35,6 +35,14 @@ class _CounterWidgetState extends State<CounterWidget> {
     });
   }
 
+  void decrement() {
+    setState(() {
+      if (_counter > 0) {
+        _counter -= 1;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +76,8 @@ class _CounterWidgetState extends State<CounterWidget> {
             ElevatedButton(onPressed: increment, child: Text('+')),
             SizedBox(width: 8,),
             ElevatedButton(onPressed: reset, child: Text('Reset')),
+            SizedBox(width: 8,),
+            ElevatedButton(onPressed: decrement, child: Text('-1')),
           ],)
         ],
       ),
