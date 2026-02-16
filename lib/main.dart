@@ -43,6 +43,12 @@ class _CounterWidgetState extends State<CounterWidget> {
     });
   }
 
+  Color get counterColor {
+    if (_counter == 0) return Colors.red;
+    if (_counter > 50) return Colors.green;
+    return Colors.black;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,13 +62,14 @@ class _CounterWidgetState extends State<CounterWidget> {
               padding: EdgeInsets.all(20),
               child: Text(
                 '$_counter',
-                style: TextStyle(fontSize: 50.0),
+                style: TextStyle(fontSize: 50.0, color: counterColor),
               ),
             ),
           ),
           SizedBox(height: 20),
           Slider(
-            min: 0, max: 100,
+            min: 0,
+            max: 100,
             value: _counter.toDouble(),
             onChanged: (double value) {
               // 👇 This triggers the UI rebuild
@@ -71,14 +78,16 @@ class _CounterWidgetState extends State<CounterWidget> {
               });
             },
           ),
-          Row(mainAxisAlignment: MainAxisAlignment.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-            ElevatedButton(onPressed: increment, child: Text('+')),
-            SizedBox(width: 8,),
-            ElevatedButton(onPressed: reset, child: Text('Reset')),
-            SizedBox(width: 8,),
-            ElevatedButton(onPressed: decrement, child: Text('-1')),
-          ],)
+              ElevatedButton(onPressed: increment, child: Text('+')),
+              SizedBox(width: 8),
+              ElevatedButton(onPressed: reset, child: Text('Reset')),
+              SizedBox(width: 8),
+              ElevatedButton(onPressed: decrement, child: Text('-1')),
+            ],
+          ),
         ],
       ),
     );
