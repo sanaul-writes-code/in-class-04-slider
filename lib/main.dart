@@ -22,6 +22,20 @@ class CounterWidget extends StatefulWidget {
 
 class _CounterWidgetState extends State<CounterWidget> {
   int _counter = 0; // This is our STATE
+  String _textFieldValue = '';
+  final TextEditingController _controller = TextEditingController();
+  // String _alertMessage = '';
+
+  void _checkCounter(BuildContext context) {
+    int? val = int.tryParse(_textFieldValue);
+    if (val != null && val > 100) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Limit Reached!')));
+      });
+    }
+  }
 
   void increment() {
     setState(() {
@@ -49,8 +63,21 @@ class _CounterWidgetState extends State<CounterWidget> {
     return Colors.black;
   }
 
+  void setCounter(String value) {
+    int? number = int.tryParse(value);
+    if (number != null) {
+      setState(() {
+        if (number >= 0 && number <= 100) {
+          _counter = number;
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    _checkCounter(context);
+
     return Scaffold(
       appBar: AppBar(title: Text('Interactive Counter')),
       body: Column(
@@ -87,6 +114,27 @@ class _CounterWidgetState extends State<CounterWidget> {
               SizedBox(width: 8),
               ElevatedButton(onPressed: decrement, child: Text('-1')),
             ],
+          ),
+          SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 100),
+            child: TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Enter a value for counter',
+              ),
+              onChanged: (value) {
+                setState(() {
+                  _textFieldValue = value;
+                });
+              },
+            ),
+          ),
+          SizedBox(height: 8),
+          ElevatedButton(
+            onPressed: () => setCounter(_textFieldValue),
+            child: Text('Submit'),
           ),
         ],
       ),
