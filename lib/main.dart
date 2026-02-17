@@ -140,4 +140,10 @@ class _CounterWidgetState extends State<CounterWidget> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }
